@@ -31,11 +31,26 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 // 2. CORS configuration
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+
+      // Allow local development and main production URL
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      }
+
+      // DYNAMIC FIX: Allow all Vercel subdomains for preview deployments
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Explicitly allow all methods
   }),
 );
-
 // 3. Security Headers - Optimized for Cloudinary asset delivery
 app.use(
   helmet({
