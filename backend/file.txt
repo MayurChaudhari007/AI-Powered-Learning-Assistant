@@ -1,0 +1,89 @@
+📦backend
+ ┣ 📂config
+ ┃ ┣ 📜db.js
+ ┃ ┗ 📜multer.js
+ ┣ 📂controllers
+ ┃ ┣ 📜aiController.js
+ ┃ ┣ 📜authController.js
+ ┃ ┣ 📜documentController.js
+ ┃ ┣ 📜flashcardController.js
+ ┃ ┗ 📜quizController.js
+ ┣ 📂middleware
+ ┃ ┣ 📜auth.js
+ ┃ ┗ 📜errorHandler.js
+ ┣ 📂models
+ ┃ ┣ 📜Document.js
+ ┃ ┣ 📜Flashcard.js
+ ┃ ┣ 📜Quiz.js
+ ┃ ┗ 📜User.js
+ ┣ 📂routes
+ ┃ ┣ 📜aiRoutes.js
+ ┃ ┣ 📜authRoutes.js
+ ┃ ┣ 📜documentRoutes.js
+ ┃ ┣ 📜flashcardRoutes.js
+ ┃ ┗ 📜quizRoutes.js
+ ┣ 📂uploads
+ ┣ 📂utils
+ ┃ ┣ 📜geminiService.js
+ ┃ ┣ 📜pdfParser.js
+ ┃ ┗ 📜textChunker.js
+ ┣ 📜.env
+ ┣ 📜file.txt
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┗ 📜server.js
+
+
+ ----------------------------------------------------------------------------------------
+
+ 📦frontend
+ ┣ 📂public
+ ┃ ┗ 📜vite.svg
+ ┣ 📂src
+ ┃ ┣ 📂api
+ ┃ ┃ ┗ 📜axios.js
+ ┃ ┣ 📂assets
+ ┃ ┃ ┗ 📜react.svg
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┗ 📜ProtectedRoute.jsx
+ ┃ ┃ ┣ 📂features
+ ┃ ┃ ┃ ┣ 📜ChatInterface.jsx
+ ┃ ┃ ┃ ┣ 📜DocumentCard.jsx
+ ┃ ┃ ┃ ┣ 📜ExplainPanel.jsx
+ ┃ ┃ ┃ ┣ 📜PDFViewer.jsx
+ ┃ ┃ ┃ ┗ 📜SummaryPanel.jsx
+ ┃ ┃ ┗ 📂layout
+ ┃ ┃ ┃ ┣ 📜Layout.jsx
+ ┃ ┃ ┃ ┣ 📜Navbar.jsx
+ ┃ ┃ ┃ ┗ 📜Sidebar.jsx
+ ┃ ┣ 📂context
+ ┃ ┃ ┣ 📜AppContext.jsx
+ ┃ ┃ ┗ 📜AuthContext.jsx
+ ┃ ┣ 📂hooks
+ ┃ ┣ 📂pages
+ ┃ ┃ ┣ 📜Dashboard.jsx
+ ┃ ┃ ┣ 📜DocumentList.jsx
+ ┃ ┃ ┣ 📜DocumentView.jsx
+ ┃ ┃ ┣ 📜FlashcardList.jsx
+ ┃ ┃ ┣ 📜FlashcardView.jsx
+ ┃ ┃ ┣ 📜Login.jsx
+ ┃ ┃ ┣ 📜QuizList.jsx
+ ┃ ┃ ┣ 📜QuizView.jsx
+ ┃ ┃ ┗ 📜Signup.jsx
+ ┃ ┣ 📂utils
+ ┃ ┣ 📜App.css
+ ┃ ┣ 📜App.jsx
+ ┃ ┣ 📜index.css
+ ┃ ┗ 📜main.jsx
+ ┣ 📜.env
+ ┣ 📜.gitignore
+ ┣ 📜eslint.config.js
+ ┣ 📜index.html
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜postcss.config.js
+ ┣ 📜README.md
+ ┣ 📜tailwind.config.js
+ ┗ 📜vite.config.js
