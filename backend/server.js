@@ -80,3 +80,4 @@ const server = app.listen(PORT, () => {
  * Necessary for Gemini processing and large file uploads.
  */
 server.timeout = 600000;
+module.exports = app;
