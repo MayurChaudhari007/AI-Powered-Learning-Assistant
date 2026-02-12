@@ -28,29 +28,31 @@ connectDB();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-// 2. CORS configuration
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl)
-      if (!origin) return callback(null, true);
+// 2. UPDATED CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL, // Your production Vercel URL
+];
 
-      // Allow local development and main production URL
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        return callback(null, true);
-      }
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+      return callback(null, true);
+    }
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
 
-      // DYNAMIC FIX: Allow all Vercel subdomains for preview deployments
-      if (origin.endsWith(".vercel.app")) {
-        return callback(null, true);
-      }
+// Apply CORS to all routes
+app.use(cors(corsOptions));
 
-      callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Explicitly allow all methods
-  }),
-);
+// EXPLICIT PREFLIGHT HANDLER (Crucial for Vercel)
+app.options("*", cors(corsOptions));
 // 3. Security Headers - Optimized for Cloudinary asset delivery
 app.use(
   helmet({
