@@ -1,150 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import api from '../api/axios';
-// import PDFViewer from '../components/features/PDFViewer';
-// import ChatInterface from '../components/features/ChatInterface';
-// import SummaryPanel from '../components/features/SummaryPanel';
-// import ExplainPanel from '../components/features/ExplainPanel';
-// import FlashcardSection from '../components/features/FlashcardSection';
-// import QuizList from '../components/features/QuizList';
-// import {
-//     FaComments, FaListAlt, FaBrain, FaArrowLeft,
-//     FaFilePdf, FaLayerGroup, FaQuestionCircle, FaRobot
-// } from 'react-icons/fa';
-// import clsx from 'clsx';
-
-// const DocumentView = () => {
-//     const { id } = useParams();
-//     const navigate = useNavigate();
-//     const [document, setDocument] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [activeTab, setActiveTab] = useState('content');
-
-//     useEffect(() => {
-//         const fetchDocument = async () => {
-//             try {
-//                 const response = await api.get(`/documents/${id}`);
-//                 setDocument(response.data);
-//             } catch (error) {
-//                 console.error("Error fetching document:", error);
-//                 navigate('/documents');
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-//         fetchDocument();
-//     }, [id, navigate]);
-
-//     if (loading) {
-//         return (
-//             <div className="flex flex-col justify-center items-center h-[80vh] space-y-4">
-//                 <div className="h-12 w-12 border-4 border-emerald-100 border-t-emerald-600 animate-spin rounded-full"></div>
-//                 <p className="text-gray-500 font-black tracking-widest uppercase text-xs animate-pulse">Initializing Workspace</p>
-//             </div>
-//         );
-//     }
-
-//     if (!document) return null;
-
-//     const fileUrl = document?.fileUrl || "";
-
-//     const tabs = [
-//         { id: 'content', label: 'CONTENT', icon: FaFilePdf },
-//         { id: 'chat', label: 'CHAT', icon: FaComments },
-//         { id: 'actions', label: 'AI ACTIONS', icon: FaBrain },
-//         { id: 'flashcards', label: 'FLASHCARDS', icon: FaLayerGroup },
-//         { id: 'quizzes', label: 'QUIZZES', icon: FaQuestionCircle },
-//     ];
-
-//     return (
-//         <div className="flex flex-col h-[calc(100vh-100px)] bg-gray-50/50 rounded-[3rem] p-1 lg:p-1 animate-in fade-in zoom-in-95 duration-700">
-
-//             {/* 1. Header Section - Matches Reference Style */}
-//             <div className="flex flex-col md:flex-row items-center justify-between px-1 mb-2 gap-3">
-//                 <div className="flex items-center gap-3">
-//                     <button
-//                         onClick={() => navigate('/documents')}
-//                         className="group p-4 rounded-2xl bg-white shadow-sm border border-gray-100 text-gray-400 hover:text-emerald-600 hover:scale-110 transition-all"
-//                     >
-//                         <FaArrowLeft size={16} />
-//                     </button>
-//                     <div className="space-y-1 text-center md:text-left">
-//                         <h1 className="text-1xl font-black text-gray-900 tracking-tight leading-none">
-//                             {document.title}
-//                         </h1>
-//                         <div className="flex items-center justify-center md:justify-start gap-2">
-//                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">
-//                                 Active Document Workspace
-//                             </span>
-//                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-//                         </div>
-//                     </div>
-//                 </div>
-
-//                 {/* Tab Switcher - Floating Pill Style */}
-//                 <div className="inline-flex bg-white/80 backdrop-blur-md p-1.5 rounded-4xl border border-gray-100 shadow-sm">
-//                     {tabs.map((tab) => (
-//                         <button
-//                             key={tab.id}
-//                             onClick={() => setActiveTab(tab.id)}
-//                             className={clsx(
-//                                 "flex items-center gap-2 px-3 py-1 rounded-3xl text-[11px] font-black transition-all duration-300 tracking-widest",
-//                                 activeTab === tab.id
-//                                     ? "bg-emerald-600 text-white shadow-lg shadow-emerald-100"
-//                                     : "text-gray-400 hover:text-emerald-600 hover:bg-emerald-50"
-//                             )}
-//                         >
-//                             <tab.icon size={12} className={activeTab === tab.id ? "text-white" : "text-gray-300"} />
-//                             <span className="hidden sm:inline">{tab.label}</span>
-//                         </button>
-//                     ))}
-//                 </div>
-//             </div>
-
-//             {/* 2. Content Container - The "Inner Card" */}
-//             <div className="flex-1 bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-gray-100/50 overflow-hidden relative">
-
-//                 {/* Tab Rendering */}
-//                 <div className="h-full w-full relative">
-//                     {activeTab === 'content' && (
-//                         <div className="h-full p-2 animate-in fade-in duration-500">
-//                              <PDFViewer fileUrl={fileUrl} />
-//                         </div>
-//                     )}
-
-//                     {activeTab === 'chat' && (
-//                         <div className="h-full max-w-4xl mx-auto p-6 animate-in slide-in-from-bottom-4 duration-500">
-//                             <ChatInterface documentId={id} />
-//                         </div>
-//                     )}
-
-//                     {activeTab === 'actions' && (
-//                         <div className="h-full p-8 overflow-y-auto scrollbar-hide">
-//                             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in zoom-in-95 duration-500">
-//                                 <SummaryPanel documentId={id} />
-//                                 <ExplainPanel documentId={id} />
-//                             </div>
-//                         </div>
-//                     )}
-
-//                     {activeTab === 'flashcards' && (
-//                         <div className="h-full p-6 animate-in fade-in duration-500">
-//                             <FlashcardSection documentId={id} />
-//                         </div>
-//                     )}
-
-//                     {activeTab === 'quizzes' && (
-//                         <div className="h-full p-6 animate-in fade-in duration-500">
-//                             <QuizList documentId={id} />
-//                         </div>
-//                     )}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default DocumentView;
 
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -164,8 +17,10 @@ import {
   FaLayerGroup,
   FaQuestionCircle,
   FaRobot,
+  FaBookOpen,
 } from "react-icons/fa";
 import clsx from "clsx";
+import StudyMaterial from "../components/features/StudyMaterial";
 
 const DocumentView = () => {
   const { id } = useParams();
@@ -209,6 +64,7 @@ const DocumentView = () => {
     { id: "chat", label: "CHAT", icon: FaComments },
     { id: "actions", label: "AI", icon: FaBrain },
     { id: "flashcards", label: "CARDS", icon: FaLayerGroup },
+    { id: "study material", label: "LIBRARY", icon: FaBookOpen },
     { id: "quizzes", label: "QUIZ", icon: FaQuestionCircle },
   ];
 
@@ -291,6 +147,12 @@ const DocumentView = () => {
           {activeTab === "flashcards" && (
             <div className="h-full p-4 md:p-6 animate-in fade-in duration-500">
               <FlashcardSection documentId={id} />
+            </div>
+          )}
+
+          {activeTab === "study material" && (
+            <div className="h-full p-1 md:p-2 animate-in fade-in duration-500">
+              <StudyMaterial/>
             </div>
           )}
 
