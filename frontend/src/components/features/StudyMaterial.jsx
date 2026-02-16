@@ -111,7 +111,7 @@ const StudyMaterial = () => {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   onError={(e) => {
                     e.target.src =
-                      "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=800";
+                      "https://i.pinimg.com/474x/cf/6a/2a/cf6a2a034ffb96436d07f1922ec5e6f4.jpg";
                   }}
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

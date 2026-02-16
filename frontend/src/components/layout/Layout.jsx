@@ -1,5 +1,7 @@
 
-import React from "react";
+
+
+import React, { useEffect } from "react"; // Added useEffect
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
@@ -8,9 +10,18 @@ import { useApp } from "../../context/AppContext";
 const Layout = () => {
   const { sidebarOpen, toggleSidebar } = useApp();
 
+  // FIX: Force sidebar to close on mobile load/refresh
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024;
+    // If it's mobile and the global state says it's open, close it once
+    if (isMobile && sidebarOpen) {
+      toggleSidebar();
+    }
+  }, []); // Empty dependency array means this runs only once on mount
+
   return (
     <div className="flex h-screen bg-[#F8FAFC] overflow-hidden font-sans">
-      {/* Sidebar Overlay for Mobile - Smooth Fade */}
+      {/* Sidebar Overlay for Mobile */}
       <div
         className={`fixed inset-0 z-40 bg-gray-900/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           sidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -18,18 +29,14 @@ const Layout = () => {
         onClick={toggleSidebar}
       />
 
-      {/* Sidebar Component */}
       <Sidebar />
 
-      {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        {/* Navbar */}
         <Navbar />
 
-        {/* Dynamic Content Rendering */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
-          <div className="p-2 lg:p-2 max-w-400 mx-auto min-h-full">
-            {/* The Outlet renders your Dashboard, DocumentList, etc. */}
+          {/* Changed p-2 to p-4 for better mobile spacing */}
+          <div className="p-4 lg:p-8 w-full mx-auto min-h-full">
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <Outlet />
             </div>
