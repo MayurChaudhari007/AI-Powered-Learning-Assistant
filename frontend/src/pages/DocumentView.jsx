@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
@@ -138,27 +137,27 @@ const DocumentView = () => {
           {activeTab === "actions" && (
             <div className="h-full p-4 md:p-8 overflow-y-auto scrollbar-hide">
               <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 animate-in zoom-in-95 duration-500">
-                <SummaryPanel documentId={id} />
-                <ExplainPanel documentId={id} />
+                <SummaryPanel documentId={id} docTitle={document.title} />
+                <ExplainPanel documentId={id} docTitle={document.title} />
               </div>
             </div>
           )}
 
           {activeTab === "flashcards" && (
             <div className="h-full p-4 md:p-6 animate-in fade-in duration-500">
-              <FlashcardSection documentId={id} />
+              <FlashcardSection documentId={id} docTitle={document.title}/>
             </div>
           )}
 
           {activeTab === "study material" && (
             <div className="h-full p-1 md:p-2 animate-in fade-in duration-500">
-              <StudyMaterial/>
+              <StudyMaterial docTitle={document.title}/>
             </div>
           )}
 
           {activeTab === "quizzes" && (
             <div className="h-full p-4 md:p-6 animate-in fade-in duration-500">
-              <QuizList documentId={id} />
+              <QuizList documentId={id} docTitle={document.title} />
             </div>
           )}
         </div>

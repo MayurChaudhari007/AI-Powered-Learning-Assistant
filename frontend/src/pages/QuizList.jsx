@@ -187,7 +187,7 @@ const QuizList = () => {
       {/* 3. Delete Modal */}
       <DeleteConfirmModal
         isOpen={deleteModal.isOpen}
-        title={deleteModal.title}
+        docTitle={deleteModal.title}
         isDeleting={isDeleting}
         onClose={() => setDeleteModal({ isOpen: false, id: null, title: "" })}
         onConfirm={handleConfirmDelete}

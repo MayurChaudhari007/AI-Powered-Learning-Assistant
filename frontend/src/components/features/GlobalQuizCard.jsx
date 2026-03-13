@@ -12,7 +12,7 @@ import {
 const GlobalQuizCard = ({ quiz, onStart, onViewResults, onDelete }) => {
   // 1. Identify parent document name
   const docTitle = quiz.document?.title || "Untitled Document";
-
+  const quizeTitle = "Quize of "+docTitle
   // 2. Logic to determine attempt status and latest score
   const hasAttempted = quiz.attempts && quiz.attempts.length > 0;
   const lastScore = hasAttempted
@@ -33,7 +33,7 @@ const GlobalQuizCard = ({ quiz, onStart, onViewResults, onDelete }) => {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onDelete(quiz._id, quiz.title);
+            onDelete(quiz._id, quizeTitle);
           }}
           className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
         >

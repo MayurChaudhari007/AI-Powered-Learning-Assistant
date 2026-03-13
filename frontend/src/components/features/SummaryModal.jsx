@@ -48,7 +48,7 @@ const SummaryModal = ({ isOpen, onClose, summary, docTitle }) => {
             </div>
             <div>
               <h3 className="text-sm md:text-base font-black text-gray-900 uppercase tracking-tight line-clamp-1">
-                {docTitle || "Document Summary"}
+                {docTitle || "Document"} Summary
               </h3>
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />

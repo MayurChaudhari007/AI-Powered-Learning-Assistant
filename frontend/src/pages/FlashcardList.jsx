@@ -5,7 +5,7 @@ import {
   FaPlus,
   FaSearch,
   FaHistory,
-  FaExclamationCircle
+  FaExclamationCircle,
 } from "react-icons/fa";
 import api from "../api/axios";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ import DeleteConfirmModal from "../components/features/DeleteConfirmModal";
 const FlashcardList = () => {
   // --- 1. State Management ---
   const [loading, setLoading] = useState(true);
-  const [allSets, setAllSets] = useState([]); 
+  const [allSets, setAllSets] = useState([]);
   const [viewingSet, setViewingSet] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
@@ -27,6 +27,8 @@ const FlashcardList = () => {
     id: null,
     title: "",
   });
+
+  const quizeTitle = deleteModal.title;
   const [isDeleting, setIsDeleting] = useState(false);
 
   // --- 2. Data Fetching ---
@@ -39,7 +41,9 @@ const FlashcardList = () => {
       setAllSets(response.data);
     } catch (err) {
       console.error("Error fetching library:", err);
-      setError("Failed to load your study library. Please check your connection.");
+      setError(
+        "Failed to load your study library. Please check your connection.",
+      );
     } finally {
       setLoading(false);
     }
@@ -69,9 +73,10 @@ const FlashcardList = () => {
   };
 
   // --- 4. Search/Filter Logic ---
-  const filteredSets = allSets.filter((set) =>
-    set.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    set.document?.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredSets = allSets.filter(
+    (set) =>
+      set.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      set.document?.title?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // --- 5. Render Logic ---
@@ -80,17 +85,13 @@ const FlashcardList = () => {
   if (viewingSet) {
     return (
       <div className="min-h-screen bg-white animate-in fade-in zoom-in-95 duration-300">
-        <FlashcardViewer 
-          set={viewingSet} 
-          onBack={() => setViewingSet(null)} 
-        />
+        <FlashcardViewer set={viewingSet} onBack={() => setViewingSet(null)} />
       </div>
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 md:p-10">
-      
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
         <div className="space-y-2">
@@ -143,9 +144,13 @@ const FlashcardList = () => {
           <div className="bg-emerald-50 p-12 rounded-4xl mb-8 rotate-3 shadow-lg shadow-emerald-50/50">
             <FaBrain className="h-16 w-16 text-emerald-500 opacity-40" />
           </div>
-          <h3 className="text-2xl font-black text-gray-900 uppercase">Empty Library</h3>
+          <h3 className="text-2xl font-black text-gray-900 uppercase">
+            Empty Library
+          </h3>
           <p className="mt-3 text-gray-400 max-w-sm mx-auto font-bold text-[10px] tracking-widest uppercase italic">
-            {searchTerm ? "No matches found." : "Upload a PDF to generate flashcards."}
+            {searchTerm
+              ? "No matches found."
+              : "Upload a PDF to generate flashcards."}
           </p>
           {!searchTerm && (
             <Link
@@ -163,16 +168,16 @@ const FlashcardList = () => {
               key={set._id}
               set={set}
               onSelect={() => setViewingSet(set)}
-              onDelete={handleOpenDelete} 
+              onDelete={handleOpenDelete}
             />
           ))}
         </div>
       )}
 
       {/* Delete Confirmation Overlay */}
-      <DeleteConfirmModal 
+      <DeleteConfirmModal
         isOpen={deleteModal.isOpen}
-        docTitle={deleteModal.title}
+        docTitle={quizeTitle}
         isDeleting={isDeleting}
         onClose={() => setDeleteModal({ isOpen: false, id: null, title: "" })}
         onConfirm={handleConfirmDelete}

@@ -3,8 +3,11 @@ import { FaLayerGroup, FaTrash, FaPlay, FaFolderOpen, FaClock } from "react-icon
 
 const GlobalFlashcardCard = ({ set, onSelect, onDelete }) => {
   // Extract document title from the populated object
+  // Extract document title from the populated object
   const docTitle = set.document?.title || "Untitled Document";
-
+  
+  // Format it nicely once: "Flashcard Set Name" from "Document Name"
+  const flashcardTitle = `Flashcard ${set.title} from ${docTitle}`;
   return (
     <div className="bg-white p-6 rounded-4xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
       {/* 1. Header: Document Badge & Delete */}
@@ -18,7 +21,7 @@ const GlobalFlashcardCard = ({ set, onSelect, onDelete }) => {
         </div>
         
         <button 
-          onClick={(e) => { e.stopPropagation(); onDelete(set._id, set.title); }}
+          onClick={(e) => { e.stopPropagation(); onDelete(set._id, flashcardTitle); }}
           className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
         >
           <FaTrash size={12} />

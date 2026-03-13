@@ -9,11 +9,12 @@ import {
   FaLightbulb,
   FaHistory,
   FaSpinner,
+  FaBookOpen,
 } from "react-icons/fa";
 import api from "../../api/axios";
 import QuizResultView from "./QuizResultView"; 
 
-const QuizActiveModal = ({ quiz, onClose }) => {
+const QuizActiveModal = ({ quiz, onClose,docTitle }) => {
   // --- 1. State Management ---
   const [currentStep, setCurrentStep] = useState("testing"); 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,7 +23,7 @@ const QuizActiveModal = ({ quiz, onClose }) => {
   );
   const [submitting, setSubmitting] = useState(false);
   const [finalResult, setFinalResult] = useState(null);
-
+  const displayTitle = docTitle || quiz?.document?.title || "Current Document";
   const currentQuestion = quiz.questions[currentIndex];
   const isLastQuestion = currentIndex === quiz.questions.length - 1;
   const allAnswered = answers.every((a) => a !== null);
@@ -79,10 +80,17 @@ const QuizActiveModal = ({ quiz, onClose }) => {
             >
               <FaTimes size={16} />
             </button>
-            <div className="min-w-0">
+            <div className="min-w-0 flex flex-col justify-center">
+              <div className="flex items-center gap-1.5 mb-0.5 md:mb-1 text-gray-400">
+                 <FaBookOpen size={10} className="shrink-0" />
+                 <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest truncate max-w-37.5 md:max-w-xs">
+                    {displayTitle}
+                 </span>
+              </div>
               <h2 className="text-[10px] md:text-sm font-black text-gray-900 uppercase tracking-tight truncate">
                 {quiz.title}
               </h2>
+              
               <div className="flex items-center gap-2 mt-0.5">
                 <div className="h-1.5 w-20 md:w-32 bg-gray-100 rounded-full overflow-hidden shrink-0">
                   <div
@@ -97,6 +105,7 @@ const QuizActiveModal = ({ quiz, onClose }) => {
                 </span>
               </div>
             </div>
+            
           </div>
           <div className="text-[8px] md:text-[10px] font-black text-emerald-600 bg-emerald-50 px-2.5 md:px-4 py-1.5 md:py-2 rounded-full uppercase shrink-0">
             {answers.filter((a) => a !== null).length} <span className="hidden xs:inline">Done</span>
@@ -208,6 +217,7 @@ const QuizActiveModal = ({ quiz, onClose }) => {
           setCurrentIndex(0);
           setCurrentStep("testing");
         }}
+        docTitle={docTitle}
       />
     </div>
   );
