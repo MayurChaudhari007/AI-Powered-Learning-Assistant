@@ -1,32 +1,3 @@
-// const express = require('express');
-// const router = express.Router();
-// // Import the new profile management functions along with the existing ones
-// const { 
-//     register, 
-//     login, 
-//     getMe, 
-//     updateProfile, 
-//     deleteProfile 
-// } = require('../controllers/authController'); 
-// const auth = require('../middleware/auth');
-
-// // --- Public Routes ---
-// router.post('/register', register);
-// router.post('/login', login);
-
-// // --- Private Routes (Requires Auth Middleware) ---
-// router.get('/me', auth, getMe);
-
-// // Profile Settings Routes
-// router.put('/profile', auth, updateProfile);    // Update Name/Password
-// router.delete('/profile', auth, deleteProfile); // Delete Account & Data
-
-// module.exports = router;
-
-
-
-
-
 
 const express = require('express');
 const router = express.Router();

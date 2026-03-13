@@ -25,6 +25,8 @@ const GenerateQuizModal = ({ isOpen, onClose, documentId, onGenerated }) => {
     }
   };
 
+  const fillPercentage = ((numQuestions - 5) / (20 - 5)) * 100;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
@@ -46,7 +48,7 @@ const GenerateQuizModal = ({ isOpen, onClose, documentId, onGenerated }) => {
             </button>
           </div>
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest">
               Number of Questions (5 - 20)
             </label>
@@ -59,6 +61,43 @@ const GenerateQuizModal = ({ isOpen, onClose, documentId, onGenerated }) => {
               className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
             />
             <p className="text-[9px] text-gray-400 font-bold uppercase italic">
+              AI will analyze the document to create unique MCQs.
+            </p>
+          </div> */}
+          <div className="space-y-4">
+            <div className="flex justify-between items-end">
+              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                Number of Questions
+              </label>
+              {/* Display the currently selected value clearly */}
+              <span className="text-xl font-black text-emerald-600">
+                {numQuestions}
+              </span>
+            </div>
+
+            <div className="relative pt-2 pb-6">
+              <input
+                type="range"
+                min="5"
+                max="20"
+                step="1"
+                value={numQuestions}
+                onChange={(e) => setNumQuestions(Number(e.target.value))}
+                // Note: We removed the generic background class because the inline style handles it now
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-emerald-500 hover:accent-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 transition-all"
+                style={{
+                  // #10b981 is Tailwind's emerald-500, #e5e7eb is gray-200
+                  background: `linear-gradient(to right, #10b981 0%, #10b981 ${fillPercentage}%, #e5e7eb ${fillPercentage}%, #e5e7eb 100%)`,
+                }}
+              />
+
+              <div className="absolute w-full flex justify-between text-[10px] font-bold text-gray-400 mt-3">
+                <span>5 Qs</span>
+                <span>20 Qs</span>
+              </div>
+            </div>
+
+            <p className="text-[9px] text-gray-400 font-bold uppercase italic mt-4">
               AI will analyze the document to create unique MCQs.
             </p>
           </div>

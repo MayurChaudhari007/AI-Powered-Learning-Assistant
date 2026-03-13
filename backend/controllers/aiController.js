@@ -15,6 +15,9 @@ const cleanAIJson = (text) => {
 };
 
 // --- 1. CHAT WITH PDF ---
+//
+
+// --- 1. CHAT WITH PDF ---
 exports.chatWithPDF = async (req, res, next) => {
   try {
     const { documentId, question } = req.body;
@@ -23,6 +26,9 @@ exports.chatWithPDF = async (req, res, next) => {
     if (!document)
       return res.status(404).json({ message: "Document not found" });
 
+    // Step 1: Fetch the history BEFORE saving the new user message.
+    // This prevents sending the current question to the AI twice
+    // (once in history and once as the new question).
     const history = await Message.find({
       document: documentId,
       user: req.user.id,
@@ -35,26 +41,29 @@ exports.chatWithPDF = async (req, res, next) => {
       .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
       .join("\n");
 
+    // Step 2: Save the USER message immediately.
+    // This gets the current millisecond timestamp.
+    await Message.create({
+      document: documentId,
+      user: req.user.id,
+      role: "user",
+      content: question,
+    });
+
+    // Step 3: Generate the AI response.
+    // This process takes time (usually a few hundred milliseconds or more).
     const response = await generateChatResponse(
       document.extractedText,
       question,
       historyContext,
     );
 
-    await Message.create([
-      {
-        document: documentId,
-        user: req.user.id,
-        role: "user",
-        content: question,
-      },
-      {
-        document: documentId,
-        user: req.user.id,
-        role: "model",
-        content: response,
-      },
-    ]);
+    await Message.create({
+      document: documentId,
+      user: req.user.id,
+      role: "model",
+      content: response,
+    });
 
     res.json({ answer: response });
   } catch (err) {

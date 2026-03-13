@@ -1,35 +1,3 @@
-// const mongoose = require('mongoose');
-
-// const QuizSchema = new mongoose.Schema({
-//     documentId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'Document',
-//         required: true
-//     },
-//     questions: [{
-//         question: String,
-//         options: [String],
-//         correctAnswer: String,
-//         explanation: String
-//     }],
-//     score: {
-//         type: Number,
-//         default: 0
-//     },
-//     attempts: {
-//         type: Number,
-//         default: 0
-//     },
-//     createdAt: {
-//         type: Date,
-//         default: Date.now
-//     }
-// });
-
-// module.exports = mongoose.model('Quiz', QuizSchema);
-
-
-
 
 const mongoose = require('mongoose');
 
